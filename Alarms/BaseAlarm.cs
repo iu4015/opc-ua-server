@@ -1,4 +1,4 @@
-п»їusing Opc.Ua;
+using Opc.Ua;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +10,13 @@ namespace OPC_ua_modules
 {
     class BaseAlarm
     {
-        public string? EventId { get; set; }//С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ С‚СЂРёРІРѕРіРё
-        public NodeId? EventType { get; set; }//С‚РёРї РїРѕРґС–С— (Р°РЅР°Р»РѕРіРѕРІР°, С‡Рё РґРёСЃРєСЂРµС‚РЅР°)
-        public NodeId? SourceNode { get; set; }//РІСѓР·РѕР», С‰Рѕ С–РЅС–С†С–СЋРІР°РІ С‚СЂРёРІРѕРіСѓ
-        public string? SourceName { get; set; }//С‚РµРєСЃС‚РѕРІРµ С–Рј'СЏ РґР¶РµСЂРµР»Р° РїРѕРґС–С—
-        public LocalizedText? Message { get; set; }//С‚РµРєСЃС‚РѕРІРµ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ С‚СЂРёРІРѕРіРё
-        public ushort Severity { get; set; }//СЂС–РІРµРЅСЊ РєСЂРёС‚РёС‡РЅРѕСЃС‚С– С‚СЂРёРІРѕРіРё
-        public int OnDelay { get; set; }//РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ С‡Р°СЃСѓ РґР»СЏ СЃС‚СЂРёР±РєС–РІ СЃРёРіРЅР°Р»Сѓ, СЏРєС– РЅРµ СЃРїСЂРёС‡РёРЅСЏС‚СЊ С‚СЂРёРІРѕРіСѓ 
-        public int OffDelay { get; set; } //РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ С‡Р°СЃСѓ РґР»СЏ РїР°РґС–РЅСЊ СЃРёРіРЅР°Р»Сѓ, СЏРєС– РЅРµ СЃРїСЂРёС‡РёРЅСЏС‚СЊ С‚СЂРёРІРѕРіСѓ
+        public string? EventId { get; set; }//ідентифікатор тривоги
+        public NodeId? EventType { get; set; }//тип події (аналогова, чи дискретна)
+        public NodeId? SourceNode { get; set; }//вузол, що ініціював тривогу
+        public string? SourceName { get; set; }//текстове ім'я джерела події
+        public LocalizedText? Message { get; set; }//текстове повідомлення тривоги
+        public ushort Severity { get; set; }//рівень критичності тривоги
+        public int OnDelay { get; set; }//налаштування часу для стрибків сигналу, які не спричинять тривогу 
+        public int OffDelay { get; set; } //налаштування часу для падінь сигналу, які не спричинять тривогу
     }
 }
