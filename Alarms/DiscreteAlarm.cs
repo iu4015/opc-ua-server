@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OPCua
+namespace OPC_ua_modules
 {
     class DiscreteAlarm : BaseAlarm
     {
