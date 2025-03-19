@@ -6,6 +6,9 @@ CA_CERT="ca.crt"
 SERVER_KEY="server.key"
 SERVER_CSR="server.csr"
 SERVER_CERT="server.crt"
+SERVER_DER="server.der"
+SERVER_PEM="server.pem"
+SERVER_PFX="server.pfx"
 CONFIG_FILE="openssl.cnf"
 
 # Створюємо кореневий (CA) ключ і сертифікат
@@ -46,6 +49,15 @@ EOL
 openssl x509 -req -in $SERVER_CSR -CA $CA_CERT -CAkey $CA_KEY -CAcreateserial \
     -out $SERVER_CERT -days 3650 -sha256 -extfile $CONFIG_FILE -extensions v3_req -passin pass:password
 
+# Конвертуємо сертифікат сервера у DER
+openssl x509 -outform der -in $SERVER_CERT -out $SERVER_DER
+
+# Конвертуємо приватний ключ у PEM
+openssl rsa -in $SERVER_KEY -out $SERVER_PEM
+
+# Конвертуємо приватний ключ та сертифікат у PFX
+openssl pkcs12 -export -out $SERVER_PFX -inkey $SERVER_KEY -in $SERVER_CERT -certfile $CA_CERT -passout pass:password
+
 # Видаляємо файл конфігурації (необов'язково)
 rm -f $CONFIG_FILE
 
@@ -53,5 +65,7 @@ rm -f $CONFIG_FILE
 echo "Генерація SSL сертифікатів завершена. Файли:"
 echo "Кореневий сертифікат: $CA_CERT"
 echo "Кореневий ключ: $CA_KEY (з паролем)"
-echo "Сертифікат сервера: $SERVER_CERT"
-echo "Приватний ключ сервера: $SERVER_KEY"
+echo "Сертифікат сервера (PEM): $SERVER_CERT"
+echo "Сертифікат сервера (DER): $SERVER_DER"
+echo "Приватний ключ сервера (PEM): $SERVER_PEM"
+echo "Сертифікат + ключ у форматі PFX: $SERVER_PFX"
