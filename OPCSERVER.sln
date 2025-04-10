@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCLibrary", "OPCLibrary\OPCLibrary.csproj", "{F7A725DD-1AC9-4522-B8C1-F91EAF33F0C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCLibraryTests", "OPCLibraryTests\OPCLibraryTests.csproj", "{5570D971-3A6D-4D7E-82BE-D24F0F4A1027}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{F7A725DD-1AC9-4522-B8C1-F91EAF33F0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7A725DD-1AC9-4522-B8C1-F91EAF33F0C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7A725DD-1AC9-4522-B8C1-F91EAF33F0C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5570D971-3A6D-4D7E-82BE-D24F0F4A1027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5570D971-3A6D-4D7E-82BE-D24F0F4A1027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5570D971-3A6D-4D7E-82BE-D24F0F4A1027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5570D971-3A6D-4D7E-82BE-D24F0F4A1027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
