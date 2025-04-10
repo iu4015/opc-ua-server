@@ -1,0 +1,7 @@
+{
+  "NodeConfig": {
+    "BaseNodePath": "Configs/BaseNodes.json",
+    "AlarmPath": "Configs/AnalogAlarms.json",
+    "DiscreteAlarmPath": "Configs/DiscreteAlarms.json"
+  }
+}
