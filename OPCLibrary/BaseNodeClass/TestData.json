@@ -1,0 +1,35 @@
+[
+  {
+    "NodeId": {
+      "NamespaceIndex": 2,
+      "IdentifierType": 1,
+      "Identifier": "TemperatureSensor1"
+    },
+    "Value": 36.5,
+    "StatusCode": 0,
+    "SourceTimestamp": "2025-05-14T13:45:00Z",
+    "ReceivedTimestamp": "2025-05-14T13:45:01Z"
+  },
+  {
+    "NodeId": {
+      "NamespaceIndex": 2,
+      "IdentifierType": 1,
+      "Identifier": "HumiditySensor1"
+    },
+    "Value": 52.3,
+    "StatusCode": 0,
+    "SourceTimestamp": "2025-05-14T13:46:00Z",
+    "ReceivedTimestamp": "2025-05-14T13:46:01Z"
+  },
+  {
+    "NodeId": {
+      "NamespaceIndex": 2,
+      "IdentifierType": 1,
+      "Identifier": "PressureSensor1"
+    },
+    "Value": 101.7,
+    "StatusCode": 2147487744,
+    "SourceTimestamp": "2025-05-14T13:47:00Z",
+    "ReceivedTimestamp": "2025-05-14T13:47:01Z"
+  }
+]

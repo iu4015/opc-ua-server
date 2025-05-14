@@ -12,6 +12,6 @@ namespace OPCLibrary.BaseNodeClass
         public IdType IdentifierType { get; set; }
         public required object Identifier { get; set; }
 
-
+        
     }
 }
