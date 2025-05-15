@@ -1,107 +1,62 @@
-using Opc.Ua;
-using Opc.Ua.Client;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Options;
+using OPCLibrary.BaseNodeClass;
 
-namespace OpcUaServer.Services
+namespace OPCLibrary.BaseNodeClass
 {
     public class RealTimeNodeService
     {
-        private readonly string _endpointUrl;
-        private ApplicationConfiguration _configuration;
-        private Session _session;
+        private readonly IMqttClient _mqttClient;
 
-        // Конструктор для ініціалізації URL кінцевої точки
-        public RealTimeNodeService(string endpointUrl)
+        public RealTimeNodeService()
         {
-            _endpointUrl = endpointUrl;
+            var factory = new MqttFactory();
+            _mqttClient = factory.CreateMqttClient();
         }
 
-        // Асинхронне підключення до OPC UA сервера
-        public async Task ConnectAsync()
+        public async Task StartAsync(string brokerAddress, string topic)
         {
-            _configuration = new ApplicationConfiguration
+            var options = new MqttClientOptionsBuilder()
+                .WithTcpServer(brokerAddress)
+                .Build();
+
+            _mqttClient.UseConnectedHandler(async e =>
             {
-                ApplicationName = "RealTimeNodeService",
-                ApplicationType = ApplicationType.Client,
-                SecurityConfiguration = new SecurityConfiguration
+                Console.WriteLine("Підключено до MQTT брокера.");
+                await _mqttClient.SubscribeAsync(new MqttTopicFilterBuilder().WithTopic(topic).Build());
+                Console.WriteLine($"Підписано на топік: {topic}");
+            });
+
+            _mqttClient.UseApplicationMessageReceivedHandler(e =>
+            {
+                var payload = System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                Console.WriteLine($"Отримано повідомлення: {payload}");
+
+                try
                 {
-                    ApplicationCertificate = new CertificateIdentifier(),
-                    AutoAcceptUntrustedCertificates = true
-                },
-                TransportConfigurations = new TransportConfigurationCollection(),
-                TransportQuotas = new TransportQuotas { OperationTimeout = 15000 },
-                ClientConfiguration = new ClientConfiguration { DefaultSessionTimeout = 60000 },
-                DisableHiResClock = true
-            };
-
-            await _configuration.Validate(ApplicationType.Client);
-
-            var endpoint = CoreClientUtils.SelectEndpoint(_endpointUrl, useSecurity: false);
-            var endpointConfiguration = EndpointConfiguration.Create(_configuration);
-            var endpointDescription = new ConfiguredEndpoint(null, endpoint, endpointConfiguration);
-
-            _session = await Session.Create(
-                _configuration,
-                endpointDescription,
-                false,
-                "RealTimeNodeService",
-                60000,
-                null,
-                null);
-        }
-
-        // Підписка на вузол для отримання даних у реальному часі
-        public void SubscribeToNode(string nodeId, Action<DataValue> callback)
-        {
-            if (_session == null)
-            {
-                throw new InvalidOperationException("Сесія не встановлена. Спочатку викличте ConnectAsync.");
-            }
-
-            var subscription = new Subscription(_session.DefaultSubscription)
-            {
-                PublishingInterval = 100,
-                KeepAliveCount = 10,
-                LifetimeCount = 20,
-                MaxNotificationsPerPublish = 10,
-                Priority = 0
-            };
-
-            _session.AddSubscription(subscription);
-            subscription.Create();
-
-            var monitoredItem = new MonitoredItem(subscription.DefaultItem)
-            {
-                StartNodeId = nodeId,
-                AttributeId = Attributes.Value,
-                SamplingInterval = 100,
-                QueueSize = 10,
-                DiscardOldest = true
-            };
-
-            // Обробка змін значення вузла
-            monitoredItem.Notification += (monitoredItem, args) =>
-            {
-                foreach (var value in args.NotificationValue as MonitoredItemNotification[])
-                {
-                    callback(value.Value);
+                    var nodeData = JsonSerializer.Deserialize<NodeValueReader>(payload);
+                    if (nodeData != null)
+                    {
+                        Console.WriteLine($"NodeId: {nodeData.NodeId}, Значення: {nodeData.Value}");
+                    }
                 }
-            };
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Помилка десеріалізації повідомлення: {ex.Message}");
+                }
+            });
 
-            subscription.AddItem(monitoredItem);
-            subscription.ApplyChanges();
+            await _mqttClient.ConnectAsync(options);
         }
 
-        // Асинхронне відключення від OPC UA сервера
-        public async Task DisconnectAsync()
+        public async Task StopAsync()
         {
-            if (_session != null)
-            {
-                await _session.CloseAsync();
-                _session.Dispose();
-                _session = null;
-            }
+            await _mqttClient.DisconnectAsync();
+            Console.WriteLine("Відключено від MQTT брокера.");
         }
     }
 }
