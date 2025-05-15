@@ -8,7 +8,7 @@ using Opc.Ua.Client;
 
 namespace OPCLibrary.BaseNodeClass
 {
-    public class NodeValueReader
+    public class NodeValue
     {
 
         public NodeId NodeId { get; set; }
@@ -18,14 +18,6 @@ namespace OPCLibrary.BaseNodeClass
         public StatusCode StatusCode { get; set; }
 
         public DateTime SourceTimestamp { get; set; }
-
-        public DateTime ReceivedTimestamp { get; set; } = DateTime.UtcNow;
-        
-        public readonly Session? _session;
-
-        public Subscription? _subscription;
-
-
         
     }
 }

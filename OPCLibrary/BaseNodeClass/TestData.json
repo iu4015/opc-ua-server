@@ -7,8 +7,7 @@
     },
     "Value": 36.5,
     "StatusCode": 0,
-    "SourceTimestamp": "2025-05-14T13:45:00Z",
-    "ReceivedTimestamp": "2025-05-14T13:45:01Z"
+    "SourceTimestamp": "2025-05-14T13:45:00Z"
   },
   {
     "NodeId": {
@@ -18,8 +17,7 @@
     },
     "Value": 52.3,
     "StatusCode": 0,
-    "SourceTimestamp": "2025-05-14T13:46:00Z",
-    "ReceivedTimestamp": "2025-05-14T13:46:01Z"
+    "SourceTimestamp": "2025-05-14T13:46:00Z"
   },
   {
     "NodeId": {
@@ -29,7 +27,6 @@
     },
     "Value": 101.7,
     "StatusCode": 2147487744,
-    "SourceTimestamp": "2025-05-14T13:47:00Z",
-    "ReceivedTimestamp": "2025-05-14T13:47:01Z"
+    "SourceTimestamp": "2025-05-14T13:47:00Z"
   }
 ]
