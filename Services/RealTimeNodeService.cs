@@ -5,17 +5,20 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
 using OPCLibrary.BaseNodeClass;
+using OPCLibrary.NodeManager;
 
 namespace OPCLibrary.BaseNodeClass
 {
     public class RealTimeNodeService
     {
         private readonly IMqttClient _mqttClient;
+        private readonly INodeManager _nodeManager;
 
-        public RealTimeNodeService()
+        public RealTimeNodeService(INodeManager nodeManager)
         {
             var factory = new MqttFactory();
             _mqttClient = factory.CreateMqttClient();
+            _nodeManager = nodeManager;
         }
 
         public async Task StartAsync(string brokerAddress, string topic)
@@ -42,6 +45,7 @@ namespace OPCLibrary.BaseNodeClass
                     if (nodeData != null)
                     {
                         Console.WriteLine($"NodeId: {nodeData.NodeId}, Значення: {nodeData.Value}");
+                        _nodeManager.UpdateNode(nodeData.NodeId, nodeData.Value); // Збереження даних у NodeManager
                     }
                 }
                 catch (Exception ex)
